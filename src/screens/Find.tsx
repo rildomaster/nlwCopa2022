@@ -16,6 +16,7 @@ export function Find() {
     const { signOut } = useAuth();
     const { navigate } = useNavigation();
     const toast = useToast();
+
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
     async function handleJoinPools() {

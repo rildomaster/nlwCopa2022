@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { VStack, Heading, Text, useToast } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
 
 import Logo from '../assets/logo.svg';
 
@@ -13,6 +14,9 @@ export function New() {
     const [isLoading, setIsLoading] = useState(false);
 
     const toast = useToast();
+    const { navigate } = useNavigation();
+
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
     async function handleAddPoll() {
 
@@ -24,14 +28,38 @@ export function New() {
                 bgColor: 'red.500'
             });
         }
-        
-        setIsLoading(true);
-        console.log(`Você clicou em Add e o valur do input é: '${poolName}'`);
 
-        setTimeout(() => {
+        try {
+
+            setIsLoading(true);
+
+            //TODO: Implementar novo bolão para API aqui
+
+            await sleep(3000);
+
+            toast.show({
+                bg: 'green.500',
+                title: `Bolão '${poolName}' foi criado com sucesso!`,
+                placement: 'top'
+            });
+
+            setPollName('');
+
+            navigate('pools');
+
+            
+        } catch (error) {
+      
+            console.log(error);
+            toast.show({
+              bg: 'red.500',
+              title: 'Erro ao confirmar palpite!',
+              placement: 'top'
+            });
+      
+          } finally {
             setIsLoading(false);
-            console.log('A função de time terminou!!');
-        }, 3000);
+          }
     }
 
     return (

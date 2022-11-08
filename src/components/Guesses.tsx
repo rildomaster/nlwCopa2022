@@ -18,6 +18,7 @@ interface Props {
 export function Guesses({ poolId, index, code }: Props) {
 
   const [isLoading, setIsLoading] = useState(false);
+  const [guessConfirmLoading, setGuessConfirmLoading] = useState(false);
   const [games, setGames] = useState<GameProps[]>([]);
   const [firstTeamPoints, setFirstTeamPoints] = useState('');
   const [secondTeamPoints, setSecondTeamPoints] = useState('');
@@ -52,12 +53,11 @@ export function Guesses({ poolId, index, code }: Props) {
 
   async function handleGuessConfirm(gameId: string) {
     try {
-
-      setIsLoading(true);
-
-      console.log(firstTeamPoints);
-      console.log(secondTeamPoints);
+      //console.log(firstTeamPoints);
+      //console.log(secondTeamPoints);
       
+      setGuessConfirmLoading(true);
+
       if(!firstTeamPoints.trim() || !secondTeamPoints.trim()) {
         return toast.show({
           bg: 'red.500',
@@ -87,7 +87,7 @@ export function Guesses({ poolId, index, code }: Props) {
       });
 
     } finally {
-      setIsLoading(false);
+      setGuessConfirmLoading(false);
     }
   }
 
@@ -110,6 +110,7 @@ export function Guesses({ poolId, index, code }: Props) {
               setFirstTeamPoints={setFirstTeamPoints}
               setSecondTeamPoints={setSecondTeamPoints}
               onGuessConfirm={() => handleGuessConfirm(item.id)}
+              guessConfirmLoading={guessConfirmLoading}
             />
           )}
           _contentContainerStyle={{ pb: 10 }}

@@ -27,11 +27,12 @@ export interface GameProps {
 interface Props {
   data: GameProps;
   onGuessConfirm: () => void;
+  guessConfirmLoading?: boolean;
   setFirstTeamPoints: (value: string) => void;
   setSecondTeamPoints: (value: string) => void;
 };
 
-export function Game({ data, setFirstTeamPoints, setSecondTeamPoints, onGuessConfirm }: Props) {
+export function Game({ data, setFirstTeamPoints, setSecondTeamPoints, onGuessConfirm, guessConfirmLoading = false }: Props) {
 
   const { colors, sizes } = useTheme();
   const when = dayjs(data.date).locale(ptBR).format('DD [de] MMMM [de] YYYY [às] HH:00[h]');
@@ -73,7 +74,12 @@ export function Game({ data, setFirstTeamPoints, setSecondTeamPoints, onGuessCon
 
       {
         !data.guess &&
-        <Button size="xs" w="full" bgColor="green.500" mt={4} onPress={onGuessConfirm}>
+        <Button 
+          size="xs" w="full" bgColor="green.500" mt={4}
+          _pressed={{ bgColor: 'green.400' }}
+          onPress={onGuessConfirm}
+          isLoading={guessConfirmLoading}
+        >
           <HStack alignItems="center">
             <Text color="white" fontSize="xs" fontFamily="heading" mr={3}>
               CONFIRMAR PALPITE
